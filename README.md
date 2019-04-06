@@ -1,0 +1,1 @@
+# Betugyakorlo_gepiras
