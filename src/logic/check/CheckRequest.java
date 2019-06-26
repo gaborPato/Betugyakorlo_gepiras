@@ -11,6 +11,10 @@ import exceptions.NO_OKTimeValue;
 import exceptions.NoTimeException;
 import exceptions.NotExcersizeException;
 import exceptions.SameCharsException;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -27,14 +31,16 @@ public class CheckRequest {
         if(excersise.startsWith("Enter You Want"))
             throw new NotExcersizeException();
         //same characters check:
+        
         char[] toCharArray = excersise.toCharArray();
-        double exercLenght=excersise.length();
-        int value=0;
+        
+        Set<Character> charset=new LinkedHashSet<>();
+       
         for (char c : toCharArray) {
-            value+=Character.getNumericValue(c);
+            if(!charset.add(c))
+                throw new SameCharsException();
         }
-       if(value/exercLenght==Character.getNumericValue(toCharArray[0]))
-           throw new SameCharsException();
+       
        
        //length check:
         if(excersise.length()<3 || excersise.length()>35){
@@ -44,17 +50,13 @@ public class CheckRequest {
         
         
        //illegal characters check:
-        char[] exerciseCharArray = excersise.toCharArray();
-        System.out.println(exerciseCharArray);
-        char [] illegalChar=new char[]{'~','ˇ','^','˘','°','˛','`','˙','´','˝','¨','¸','÷','×',
-        'ł','Ł','ß','¤',' '};
-        for (int i = 0; i < illegalChar.length; i++) {
-            for (int j = 0; j < exerciseCharArray.length; j++) {
-                if(illegalChar[i]==exerciseCharArray[j])
-                    throw new IllegalCharacter();
-                
-            }
-            
+
+
+        String regex="^[a-z0-9,.-_áéűúőóüöí]*$";
+        Pattern pattern=Pattern.compile(regex);
+        Matcher matcher=pattern.matcher(excersise);
+        if (!matcher.matches()) {
+            throw  new IllegalCharacter();
         }
         
     }

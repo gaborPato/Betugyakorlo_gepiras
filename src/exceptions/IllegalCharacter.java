@@ -13,7 +13,7 @@ public class IllegalCharacter extends Exception {
 
     @Override
     public String toString() {
-        return "do not use whitespace";
+        return "do not use illegal characters";
     }
     
 }
